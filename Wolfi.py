@@ -9,7 +9,7 @@ import youtube_dl
 from youtube_dl import *
 
 
-client = commands.Bot(command_prefix = '.', intents = discord.Intents.all())
+client = commands.Bot(command_prefix = '.', intents = discord.Intents.all(), case_insensitive = True, strip_after_prefix = True)
 client.remove_command('help')
 connection = sqlite3.connect('TABLE.db')
 cursor = connection.cursor()
