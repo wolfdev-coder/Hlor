@@ -320,6 +320,49 @@ async def play(ctx, *, url = None):
 				new.clear()
 				await asyncio.sleep(2)
 				await new.wait()
+			try:
+				await test_v2.disconnect()
+				await ctx.send(f"Бот отключился")
+			except:
+				await ctx.send("Бот не подключен к гс!")
+
+@client.command(aliases = ['s'])
+async def skip(ctx):
+	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+	if test_v2.is_playing() or test_v2.is_paused():
+		test_v2.stop()
+		await ctx.send('Музыка переключена на следущую!')
+	else:
+		await ctx.send('Музыка не включена!')
+
+@client.command()
+async def stop(ctx):
+	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+	if test_v2.is_playing() or test_v2.is_paused():
+		while queue.qsize() > 0:
+			await queue.get()
+		test_v2.stop()
+		await ctx.send('Музыка остановлена')
+	else:
+		await ctx.send('Музыка не включена!')
+
+@client.command()
+async def pause(ctx):
+	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+	if test_v2.is_playing():
+		test_v2.pause()
+		await ctx.send('Музыка поставлена на паузу')
+	else:
+		await ctx.send('Музыка не включена!')
+
+@client.command()
+async def resume(ctx):
+	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+	if test_v2.is_paused():
+		test_v2.resume()
+		await ctx.send('Музыка снова проигрывается')
+	else:
+		await ctx.send('Музыка и так включена!')
 
 @client.command()
 async def leave(ctx):
