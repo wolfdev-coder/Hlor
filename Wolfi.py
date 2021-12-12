@@ -277,7 +277,7 @@ async def ping(ctx):
     ping = round(ping_ * 1000)
     await ctx.send(embed = discord.Embed(title = 'Пинг', description=f'Пинг в данный момент времени: ```{ping}ms```'))
 
-@client.command(pass_context=True)
+@client.command()
 async def join(ctx):
 	try:
 		channel = ctx.author.voice.channel
@@ -287,20 +287,38 @@ async def join(ctx):
 
 # НУ ЖЕ, КАК ЖЕ ЭТО СДЕЛАТЬ
 
-@client.command(pass_context=True)
-async def play(ctx, *, url):
-	try:
-		channel = ctx.author.voice.channel
-		await channel.connect()
-	except:
-		await ctx.send('Зайдите в гс канал!')
-	FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'} # Если -инет, то будет переподключатся
-	ydl_opts = {'format': 'bestaudio/best'}
-	with YoutubeDL(ydl_opts) as ydl:
-		test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
-	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
-	test_v2.play(discord.FFmpegOpusAudio(test_video['formats'][0]['url'], **FFMPEG_OPTIONS)) 
-	await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {test_video["title"]}'))
+queue = asyncio.Queue()
+FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'} # Если -инет, то будет переподключатся
+ydl_opts = {'format': 'bestaudio/best'}
+
+@client.command(aliases = ['p'])
+async def play(ctx, *, url = None):
+	if url is None:
+		await ctx.send('Ты не указал название либо ссылку на трек!')
+	else:
+		try:
+			channel = ctx.author.voice.channel
+			await channel.connect()
+			a = True
+		except:
+			a = False
+			await ctx.send('Зайдите в гс канал!')
+		if a:
+			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
+			with YoutubeDL(ydl_opts) as ydl:
+				test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
+			if test_v2.is_playing() or test_v2.is_paused():
+				await queue.put(test_video)
+				await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Музыка: **{test_video["title"]}** добавлена в очередь'))
+			else:
+				await queue.put(test_video)
+				while queue.qsize() > 0:
+					new = asyncio.Event()
+					await new.clear()
+					current = await queue.get()
+					test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: await new.set())
+					await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {test_video["title"]}'))
+					await new.wait()
 
 @client.command()
 async def leave(ctx):
