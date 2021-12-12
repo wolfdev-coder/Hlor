@@ -184,6 +184,10 @@ async def help(ctx):
 	emb.add_field(name = ':pushpin:.выебать', value=':bulb:Наказать своего недруга злым методом', inline = True)
 	emb.add_field(name = ':pushpin:.ping', value=':bulb:узнать пинг бота', inline = True)
 	emb.add_field(name = ':pushpin:.clear', value=':bulb:Очистка чата', inline = True)
+	emb.add_field(name = ':pushpin:.play', value=':bulb:Включить музыку', inline = True)
+	emb.add_field(name = ':pushpin:.pause', value=':bulb:Прекратить проигрывание', inline = True)
+	emb.add_field(name = ':pushpin:.resume', value=':bulb:Продолжить воспроизведение', inline = True)
+	emb.add_field(name = ':pushpin:.stop', value=':bulb:Остановить проигрывание полностью', inline = True)
 	await ctx.send(embed = emb)
 
 @client.command()
