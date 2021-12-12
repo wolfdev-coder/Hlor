@@ -314,9 +314,9 @@ async def play(ctx, *, url = None):
 				await queue.put(test_video)
 				while queue.qsize() > 0:
 					new = asyncio.Event()
-					await new.clear()
+					new.clear()
 					current = await queue.get()
-					test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: await new.set())
+					test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
 					await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {test_video["title"]}'))
 					await new.wait()
 
