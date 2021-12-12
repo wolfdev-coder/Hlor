@@ -279,18 +279,28 @@ async def ping(ctx):
 
 @client.command(pass_context=True)
 async def join(ctx):
-	channel = ctx.author.voice.channel
-	await channel.connect()
+	try:
+		channel = ctx.author.voice.channel
+		await channel.connect()
+	except:
+		await ctx.send('Зайдите в гс канал!')
+
+# НУ ЖЕ, КАК ЖЕ ЭТО СДЕЛАТЬ
 
 @client.command(pass_context=True)
 async def play(ctx, *, url):
+	try:
+		channel = ctx.author.voice.channel
+		await channel.connect()
+	except:
+		await ctx.send('Зайдите в гс канал!')
 	FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'} # Если -инет, то будет переподключатся
-	ydl_opts = {'format': 'bestaudio/best'} #Настройки для быстрой ТРАСЛЯЦИИ, А НЕ СКАЧИВАНИЕ
+	ydl_opts = {'format': 'bestaudio/best'}
 	with YoutubeDL(ydl_opts) as ydl:
 		test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
-		test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
-		test_v2.play(discord.FFmpegOpusAudio(test_video['formats'][0]['url'], **FFMPEG_OPTIONS)) 
-		await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {url}'))
+	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
+	test_v2.play(discord.FFmpegOpusAudio(test_video['formats'][0]['url'], **FFMPEG_OPTIONS)) 
+	await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {test_video["title"]}'))
 
 @client.command()
 async def leave(ctx):
@@ -301,6 +311,6 @@ async def leave(ctx):
 		await voice.disconnect()
 		await ctx.send(f"Отключился от {channel}")
 	else:
-		await ctx.send("Don't think I am in a voice channel")
+		await ctx.send("Бот не подключен к гс!")
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.nz3J5kmnIt1QYWCXbLk-jP0S7vA')
