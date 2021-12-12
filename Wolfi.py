@@ -299,26 +299,26 @@ async def play(ctx, *, url = None):
 		try:
 			channel = ctx.author.voice.channel
 			await channel.connect()
-			a = True
 		except:
-			a = False
-			await ctx.send('Зайдите в гс канал!')
-		if a:
+			pass
+		try:
 			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
-			with YoutubeDL(ydl_opts) as ydl:
-				test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
-			if test_v2.is_playing() or test_v2.is_paused():
-				await queue.put(test_video)
-				await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Музыка: **{test_video["title"]}** добавлена в очередь'))
-			else:
-				await queue.put(test_video)
-				while queue.qsize() > 0:
-					new = asyncio.Event()
-					new.clear()
-					current = await queue.get()
-					test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
-					await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {test_video["title"]}'))
-					await new.wait()
+		except:
+			await ctx.send('Зайдите в гс канал!')
+		with YoutubeDL(ydl_opts) as ydl:
+			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
+		if test_v2.is_playing() or test_v2.is_paused():
+			await queue.put(test_video)
+			await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Музыка: **{test_video["title"]}** добавлена в очередь'))
+		else:
+			await queue.put(test_video)
+			while queue.qsize() > 0:
+				new = asyncio.Event()
+				new.clear()
+				current = await queue.get()
+				test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
+				await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {test_video["title"]}'))
+				await new.wait()
 
 @client.command()
 async def leave(ctx):
