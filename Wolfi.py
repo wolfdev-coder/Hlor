@@ -298,7 +298,7 @@ ydl_opts = {'format': 'bestaudio/best'}
 @client.command(aliases = ['p'])
 async def play(ctx, *, url = None):
 	if url is None:
-		await ctx.send(discord.Embed(title = 'Музыка:notes:', description = ':bulb:Ты не указал название либо ссылку на трек!'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Ты не указал название либо ссылку на трек!'))
 	else:
 		try:
 			channel = ctx.author.voice.channel
@@ -308,7 +308,7 @@ async def play(ctx, *, url = None):
 		try:
 			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
 		except:
-			await ctx.send(discord.Embed(title = 'Музыка:notes:', description = ':bulb:Зайдите в гс канал!'))
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Зайдите в гс канал!'))
 		with YoutubeDL(ydl_opts) as ydl:
 			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
 		if test_v2.is_playing() or test_v2.is_paused():
