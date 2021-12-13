@@ -102,6 +102,12 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 
 @client.command()
 @commands.has_permissions(administrator=True)
+async def unban(ctx, member: discord.Member = None,):
+	await member.unban(reason = f'{arg}')
+	await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}'))
+	await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}'))
+@client.command()
+@commands.has_permissions(administrator=True)
 async def warn(ctx, member: discord.Member = None, *, arg='Причина не указана'):
 	if member is None:
 		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = 'Правильная форма: **.warn @(ник) (причина)**'))
