@@ -326,18 +326,18 @@ async def play(ctx, *, url = None):
 				await new.wait()
 			try:
 				await test_v2.disconnect()
-				await ctx.send(discord.Embed(title = 'Музыка:notes:',description =f"Бот отключился"))
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Бот отключился"))
 			except:
-				await ctx.send(discord.Embed(title = 'Музыка:notes:',description ="Бот не подключен к гс!"))
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
 
 @client.command(aliases = ['s'])
 async def skip(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_playing() or test_v2.is_paused():
 		test_v2.stop()
-		await ctx.send(discord.Embed(title ='Музыка:notes:',description = ':bulb:Музыка переключена на следущую!'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка переключена на следущую!'))
 	else:
-		await ctx.send('Музыка не включена!')
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 
 @client.command()
 async def stop(ctx):
@@ -346,27 +346,27 @@ async def stop(ctx):
 		while queue.qsize() > 0:
 			await queue.get()
 		test_v2.stop()
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description = 'Музыка остановлена'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка остановлена'))
 	else:
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка не включена!'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 
 @client.command()
 async def pause(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_playing():
 		test_v2.pause()
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка поставлена на паузу'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка поставлена на паузу'))
 	else:
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка не включена!'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 
 @client.command()
 async def resume(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_paused():
 		test_v2.resume()
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка снова проигрывается'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка снова проигрывается'))
 	else:
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка и так включена!'))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка и так включена!'))
 
 @client.command()
 async def leave(ctx):
@@ -375,8 +375,8 @@ async def leave(ctx):
 
 	if voice and voice.is_connected():
 		await voice.disconnect()
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description = f"Отключился от {channel}"))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Отключился от {channel}"))
 	else:
-		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ="Бот не подключен к гс!"))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.nz3J5kmnIt1QYWCXbLk-jP0S7vA')
