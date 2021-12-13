@@ -233,9 +233,10 @@ async def kill(ctx,member: discord.Member = None, *, arg = 'Без аргуме�
 			a = False
 
 @client.event
-async def on_command_error(ctx, error):
+async def on_command_error(ctx, error, *, arg = 'Нету'):
 	if isinstance(error, commands.CommandNotFound ):
 		await ctx.send(embed = discord.Embed(title = 'Ошибка:no_entry:', description = f'**{ctx.author.name}**, данной команды не существует. \n\nЕсли хотите узнать команды, напишите .help'))
+		print(f'Пиздеец, прикинь чел {ctx.author} написал {arg}, БЛЯЯ пиздец он лошара ебаный пиздец, даже моя бабка знает все мои команды')
 	else:
 		print(error)	
 
