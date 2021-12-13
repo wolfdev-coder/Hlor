@@ -135,12 +135,12 @@ async def clear(ctx, limit = None):
 		await ctx.channel.purge(limit = 75)
 		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)'))
 		await asyncio.sleep(int(6))
-		await ctx.channel.purge(limit = 3)
+		await ctx.channel.purge(limit = 1)
 	else:
 		await ctx.channel.purge(limit = int(limit))
 		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = f':bulb:Данный канал успешно очищен! \n\nОчистил - {ctx.author}'))
 		await asyncio.sleep(int(6))
-		await ctx.channel.purge(limit = 3)
+		await ctx.channel.purge(limit = 1)
 
 @client.command(aliases = ['y'])
 async def скажи(ctx, *, arg = None):
