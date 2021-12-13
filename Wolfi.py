@@ -58,6 +58,7 @@ async def mute(ctx, member: discord.Member = None,time=None, *,arg='Причин
 		await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ замучен! \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
 		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Вам выдали мут. \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
 		await member.add_roles(discord.utils.get(ctx.guild.roles, name = 'Mute'), reason =  f"{arg}")
+		print('Пользователя замутили на дискорд сервере')
 		await asyncio.sleep(int(time))
 		await member.remove_roles(discord.utils.get(ctx.guild.roles, name = 'Mute')) 
 		await member.send(embed = discord.Embed(title = 'Сюрприз! :tada:', description=  f':bulb:У вас ,__{member.mention}__, истекло время мута '))
@@ -94,6 +95,7 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 		await member.create_dm()
 		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', descriptions = f':bulb:Вы были забанены на **{time2}** \n\nCервер **{ctx.guild.name}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Забанил: __{ctx.author}__'))
 		await member.ban(reason = f'{arg}')
+		print('Пользователя забанили на дискорд сервере')
 		await asyncio.sleep(int(time))
 		await member.unban(reason = f'{arg}')
 		await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
@@ -120,7 +122,7 @@ async def warns(ctx, member: discord.Member = None):
 @commands.has_permissions(administrator=True)
 async def unwarn(ctx, member: discord.Member = None):
 	if member is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = ':bulb:Правильная форма: **.unwarn @(ник)**'))
+		await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: **.unwarn @(ник)**'))
 	else:
 		cursor.execute("UPDATE users SET warns = 0 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
 		connection.commit()
@@ -208,6 +210,7 @@ async def контроль(ctx,member: discord.Member = None, time=None):
 	a = True
 	while a:
 		await member.send(f'Сработала защита от ошибок! Название системы __SystemErrorCheker__! Сообщите TheWolf1k#2980 об ошибке! \n\nЕму это сообщение не придет. Сообщение идет только **Участникам** дискорд сервера!')
+		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .контроль')
 		coint += 1
 		if coint == 300:
 			a = False
@@ -218,6 +221,7 @@ async def kill(ctx,member: discord.Member = None, *, arg = 'Без аргуме�
 	a = True
 	while a:
 		await ctx.send(f'{member.mention} {arg}')
+		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .kill')
 		coint += 1
 		if coint == 1000:
 			a = False
