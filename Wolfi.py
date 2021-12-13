@@ -142,7 +142,7 @@ async def clear(ctx, limit = None):
 		await asyncio.sleep(int(6))
 		await ctx.channel.purge(limit = 3)
 
-@client.command()
+@client.command(aliases = ['y'])
 async def скажи(ctx, *, arg = None):
 	if arg is None:
 		await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)'))
@@ -192,7 +192,7 @@ async def help(ctx):
 	emb.add_field(name = ':pushpin:.stop', value=':bulb:Остановить проигрывание полностью', inline = True)
 	await ctx.send(embed = emb)
 
-@client.command()
+@client.command(aliases = ['v'])
 async def выебать(ctx,member: discord.Member = None,):
 	coint = 0
 	a = True
@@ -202,7 +202,7 @@ async def выебать(ctx,member: discord.Member = None,):
 		coint += 1
 		if coint == 1:
 			a = False
-@client.command()
+@client.command(aliases = ['kl'])
 async def контроль(ctx,member: discord.Member = None, time=None):
 	await member.send(f'ИИ включен.')
 	await asyncio.sleep(int(3))
@@ -285,7 +285,7 @@ async def ping(ctx):
     ping = round(ping_ * 1000)
     await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'Пинг в данный момент времени: ```{ping}ms```'))
 
-@client.command()
+@client.command(aliases = ['j'])
 async def join(ctx):
 	try:
 		channel = ctx.author.voice.channel
@@ -343,7 +343,7 @@ async def skip(ctx):
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 
-@client.command()
+@client.command(aliases = ['sp'])
 async def stop(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_playing() or test_v2.is_paused():
@@ -354,7 +354,7 @@ async def stop(ctx):
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 
-@client.command()
+@client.command(aliases = ['ps'])
 async def pause(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_playing():
@@ -363,7 +363,7 @@ async def pause(ctx):
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 
-@client.command()
+@client.command(aliases = ['r'])
 async def resume(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_paused():
@@ -372,7 +372,7 @@ async def resume(ctx):
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка и так включена!'))
 
-@client.command()
+@client.command(aliases = ['l'])
 async def leave(ctx):
 	channel = ctx.message.author.voice.channel
 	voice = get(client.voice_clients, guild=ctx.guild)
