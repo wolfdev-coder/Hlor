@@ -55,8 +55,8 @@ async def mute(ctx, member: discord.Member = None,time=None, *,arg='Причин
 		elif 'd' in time:
 			time = time[:-1] 
 			time = int(time)*3600*24
-		await ctx.send(embed = discord.Embed(title = 'Блокировки', description = f':bulb:Участник __{member.mention}__ замучен! \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
-		await member.send(embed = discord.Embed(title = 'Блокировки', description = f':bulb:Вам выдали мут. \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
+		await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ замучен! \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
+		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Вам выдали мут. \n\n:bulb:Срок мута: **{time2}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Администратор: __{ctx.author}__'))
 		await member.add_roles(discord.utils.get(ctx.guild.roles, name = 'Mute'), reason =  f"{arg}")
 		await asyncio.sleep(int(time))
 		await member.remove_roles(discord.utils.get(ctx.guild.roles, name = 'Mute')) 
@@ -68,7 +68,7 @@ async def unmute(ctx, member: discord.Member = None):
 		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = ':bulb:Форма размута: **.unmute @(ник)**'))
 	else:
 		await member.remove_roles(discord.utils.get(ctx.guild.roles, name = 'Mute')) 
-		await ctx.send(embed = discord.Embed(title = 'Разблокировки', description =  f':bulb:Вы размутили __{member.mention}__ \n\n:bulb:Администратор: __{ctx.author}__'))
+		await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description =  f':bulb:Вы размутили __{member.mention}__ \n\n:bulb:Администратор: __{ctx.author}__'))
 @client.command()
 @commands.has_permissions(administrator=True)
 async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина не указана'):
@@ -90,9 +90,9 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 		elif 'd' in time:
 			time = time[:-1] 
 			time = int(time)*3600*24
-		await ctx.send(embed = discord.Embed(title = 'Блокировки', description = f':bulb:Участник __{member.mention}__ забанен! \n\n:bulb:Срок бана: **{time2}** \n\n:bulb:Причина: **{arg}** \n\n:bulb:Администратор: __{ctx.author}__'))
+		await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ забанен! \n\n:bulb:Срок бана: **{time2}** \n\n:bulb:Причина: **{arg}** \n\n:bulb:Администратор: __{ctx.author}__'))
 		await member.create_dm()
-		await member.send(embed = discord.Embed(title = 'Блокировки', descriptions = f':bulb:Вы были забанены на **{time2}** \n\nCервер **{ctx.guild.name}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Забанил: __{ctx.author}__'))
+		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', descriptions = f':bulb:Вы были забанены на **{time2}** \n\nCервер **{ctx.guild.name}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Забанил: __{ctx.author}__'))
 		await member.ban(reason = f'{arg}')
 		await asyncio.sleep(int(time))
 		await member.unban(reason = f'{arg}')
@@ -106,8 +106,8 @@ async def warn(ctx, member: discord.Member = None, *, arg='Причина не �
 	else:
 		cursor.execute("UPDATE users SET warns = warns + 1 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
 		connection.commit()
-		await ctx.send(embed = discord.Embed(title ='Предупреждения', description = f':red_circle:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Выдал: __{ctx.author}__'))
-		await member.send(embed = discord.Embed(title = 'Варны ', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__'))
+		await ctx.send(embed = discord.Embed(title ='Предупреждения:bangbang:', description = f':bulb:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: **{arg}**\n\n:bulb:Выдал: __{ctx.author}__'))
+		await member.send(embed = discord.Embed(title = 'Варны:bangbang:', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__'))
 @client.command()
 async def warns(ctx, member: discord.Member = None):
 	if member is None:
@@ -124,26 +124,26 @@ async def unwarn(ctx, member: discord.Member = None):
 	else:
 		cursor.execute("UPDATE users SET warns = 0 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
 		connection.commit()
-		await ctx.send(embed = discord.Embed(title = 'Предупреждения', description = f':bulb:У участника __{member.mention}__ очищены варны'))
+		await ctx.send(embed = discord.Embed(title = 'Предупреждения:bangbang', description = f':bulb:У участника __{member.mention}__ очищены варны'))
 
 @client.command()
 @commands.has_permissions(administrator=True)
 async def clear(ctx, limit = None):
 	if limit is None:
 		await ctx.channel.purge(limit = 75)
-		await ctx.send(embed = discord.Embed(title = 'Очистка! :no_entry:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)'))
+		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)'))
 		await asyncio.sleep(int(6))
 		await ctx.channel.purge(limit = 3)
 	else:
 		await ctx.channel.purge(limit = int(limit))
-		await ctx.send(embed = discord.Embed(title = 'Очистка! :no_entry:', description = f':bulb:Данный канал успешно очищен! \n\nОчистил - {ctx.author}'))
+		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = f':bulb:Данный канал успешно очищен! \n\nОчистил - {ctx.author}'))
 		await asyncio.sleep(int(6))
 		await ctx.channel.purge(limit = 3)
 
 @client.command()
 async def скажи(ctx, *, arg = None):
 	if arg is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .say (Текст)'))
+		await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)'))
 	else:
 		await ctx.channel.purge(limit = 1)
 		await ctx.send(arg)
@@ -225,7 +225,7 @@ async def kill(ctx,member: discord.Member = None, *, arg = 'Без аргуме�
 @client.event
 async def on_command_error(ctx, error):
 	if isinstance(error, commands.CommandNotFound ):
-		await ctx.send(embed = discord.Embed(title = 'Ошибка', description = f'{ctx.author.name}, данной команды не существует. \n\nЕсли хотите узнать команды, напишите .help'))
+		await ctx.send(embed = discord.Embed(title = 'Ошибка:no_entry:', description = f'**{ctx.author.name}**, данной команды не существует. \n\nЕсли хотите узнать команды, напишите .help'))
 	else:
 		print(error)	
 
@@ -279,7 +279,7 @@ async def on_member_join (member):
 async def ping(ctx):
     ping_ = client.latency
     ping = round(ping_ * 1000)
-    await ctx.send(embed = discord.Embed(title = 'Пинг', description=f'Пинг в данный момент времени: ```{ping}ms```'))
+    await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'Пинг в данный момент времени: ```{ping}ms```'))
 
 @client.command()
 async def join(ctx):
@@ -298,7 +298,7 @@ ydl_opts = {'format': 'bestaudio/best'}
 @client.command(aliases = ['p'])
 async def play(ctx, *, url = None):
 	if url is None:
-		await ctx.send('Ты не указал название либо ссылку на трек!')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:', description = ':bulb:Ты не указал название либо ссылку на трек!'))
 	else:
 		try:
 			channel = ctx.author.voice.channel
@@ -308,34 +308,34 @@ async def play(ctx, *, url = None):
 		try:
 			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
 		except:
-			await ctx.send('Зайдите в гс канал!')
+			await ctx.send(discord.Embed(title = 'Музыка:notes:', description = ':bulb:Зайдите в гс канал!'))
 		with YoutubeDL(ydl_opts) as ydl:
 			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
 		if test_v2.is_playing() or test_v2.is_paused():
 			await queue.put(test_video)
-			await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Музыка: **{test_video["title"]}** добавлена в очередь'))
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Музыка: **{test_video["title"]}** добавлена в очередь'))
 		else:
 			await queue.put(test_video)
 			while queue.qsize() > 0:
 				new = asyncio.Event()
 				current = await queue.get()
 				test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
-				await ctx.send(embed = discord.Embed(title = 'Музыка', description = f'Сейчас играет музыка - {current["title"]}'))
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Сейчас играет музыка - **{current["title"]}**'))
 				new.clear()
 				await asyncio.sleep(2)
 				await new.wait()
 			try:
 				await test_v2.disconnect()
-				await ctx.send(f"Бот отключился")
+				await ctx.send(discord.Embed(title = 'Музыка:notes:',description =f"Бот отключился"))
 			except:
-				await ctx.send("Бот не подключен к гс!")
+				await ctx.send(discord.Embed(title = 'Музыка:notes:',description ="Бот не подключен к гс!"))
 
 @client.command(aliases = ['s'])
 async def skip(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_playing() or test_v2.is_paused():
 		test_v2.stop()
-		await ctx.send('Музыка переключена на следущую!')
+		await ctx.send(discord.Embed(title ='Музыка:notes:',description = ':bulb:Музыка переключена на следущую!'))
 	else:
 		await ctx.send('Музыка не включена!')
 
@@ -346,27 +346,27 @@ async def stop(ctx):
 		while queue.qsize() > 0:
 			await queue.get()
 		test_v2.stop()
-		await ctx.send('Музыка остановлена')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description = 'Музыка остановлена'))
 	else:
-		await ctx.send('Музыка не включена!')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка не включена!'))
 
 @client.command()
 async def pause(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_playing():
 		test_v2.pause()
-		await ctx.send('Музыка поставлена на паузу')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка поставлена на паузу'))
 	else:
-		await ctx.send('Музыка не включена!')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка не включена!'))
 
 @client.command()
 async def resume(ctx):
 	test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 	if test_v2.is_paused():
 		test_v2.resume()
-		await ctx.send('Музыка снова проигрывается')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка снова проигрывается'))
 	else:
-		await ctx.send('Музыка и так включена!')
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ='Музыка и так включена!'))
 
 @client.command()
 async def leave(ctx):
@@ -375,8 +375,8 @@ async def leave(ctx):
 
 	if voice and voice.is_connected():
 		await voice.disconnect()
-		await ctx.send(f"Отключился от {channel}")
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description = f"Отключился от {channel}"))
 	else:
-		await ctx.send("Бот не подключен к гс!")
+		await ctx.send(discord.Embed(title = 'Музыка:notes:',description ="Бот не подключен к гс!"))
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.nz3J5kmnIt1QYWCXbLk-jP0S7vA')
