@@ -133,7 +133,7 @@ async def unwarn(ctx, member: discord.Member = None):
 async def clear(ctx, limit = None):
 	if limit is None:
 		await ctx.channel.purge(limit = 75)
-		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)'))
+		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)'))
 		await asyncio.sleep(int(6))
 		await ctx.channel.purge(limit = 1)
 	else:
