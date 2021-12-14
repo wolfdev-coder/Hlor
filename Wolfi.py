@@ -357,5 +357,34 @@ async def leave(ctx):
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
 
+@client.command(aliases = ['qw'])
+async def loop(ctx, *, url = None):
+	if url is None:
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Ты не указал название либо ссылку на трек!'))
+	else:
+		try:
+			channel = ctx.author.voice.channel
+			await channel.connect()
+		except:
+			pass
+		try:
+			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
+		except:
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Зайдите в гс канал!'))
+		with YoutubeDL(ydl_opts) as ydl:
+			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0]
+			coint = 0
+			a = True
+			while a:
+				test_v2.play(discord.FFmpegOpusAudio(test_video['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Сейчас играет музыка - **{test_video["title"]}**'))
+				coint +=1
+				if coint == 1000:
+					a = False
+			try:
+				await test_v2.disconnect()
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Бот отключился"))
+			except:
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
