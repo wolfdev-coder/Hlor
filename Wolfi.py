@@ -267,10 +267,9 @@ async def join(ctx):
 	except:
 		await ctx.send('Зайдите в гс канал!')
 
-# НУ ЖЕ, КАК ЖЕ ЭТО СДЕЛАТЬ
 
 queue = asyncio.Queue()
-FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'} # Если -инет, то будет переподключатся
+FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'} 
 ydl_opts = {'format': 'bestaudio/best'}
 
 @client.command(aliases = ['p'])
@@ -284,11 +283,11 @@ async def play(ctx, *, url = None):
 		except:
 			pass
 		try:
-			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild) # Это получает voice_clients (ЕСТЬ В ДОКУМЕНТАЦИИ, ЧИТАТЬ НАДО!!!!)
+			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
 		except:
 			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Зайдите в гс канал!'))
 		with YoutubeDL(ydl_opts) as ydl:
-			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] # СКАЧИВАНИЕ НА FALSE, И ТАК МОЖНО ЧЕРЕЗ ytsearch ЧЕРЕЗ ПОИСК ВКЛЮЧИТЬ (Можно оставить только url)
+			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] 
 		if test_v2.is_playing() or test_v2.is_paused():
 			await queue.put(test_video)
 			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Музыка: **{test_video["title"]}** добавлена в очередь'))
