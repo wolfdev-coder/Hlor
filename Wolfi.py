@@ -186,6 +186,7 @@ async def help(ctx):
 	await ctx.send(embed = emb)
 
 @client.command(aliases = ['kl'])
+@commands.has_permissions(administrator=True)
 async def контроль(ctx,member: discord.Member = None, time=None):
 	await member.send(f'ИИ включен.')
 	await asyncio.sleep(int(3))
