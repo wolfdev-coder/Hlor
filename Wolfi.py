@@ -19,7 +19,7 @@ cursor = connection.cursor()
 
 @client.event
 async def on_ready():
-	await client.change_presence( status = discord.Status.idle, activity = discord.Game( '.help' ) )
+	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game( '.help' ) )
 	print('Бот запущен')
 	cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 		name TEXT,
@@ -64,6 +64,9 @@ async def mute(ctx, member: discord.Member = None,time=None, *,arg='Причин
 		await asyncio.sleep(int(time))
 		await member.remove_roles(discord.utils.get(ctx.guild.roles, name = 'Mute')) 
 		await member.send(embed = discord.Embed(title = 'Сюрприз! :tada:', description=  f':bulb:У вас ,__{member.mention}__, истекло время мута '))
+
+
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def unmute(ctx, member: discord.Member = None):
@@ -72,6 +75,9 @@ async def unmute(ctx, member: discord.Member = None):
 	else:
 		await member.remove_roles(discord.utils.get(ctx.guild.roles, name = 'Mute')) 
 		await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description =  f':bulb:Вы размутили __{member.mention}__ \n\n:bulb:Администратор: __{ctx.author}__'))
+
+
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина не указана'):
@@ -101,12 +107,16 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 		await member.unban(reason = f'{arg}')
 		await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
 
+
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def unban(ctx, member: discord.Member = None,):
 	await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}'))
 	await member.unban(reason = f'{arg}')
 	await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}'))
+
+
 
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -118,6 +128,9 @@ async def warn(ctx, member: discord.Member = None, *, arg='Причина не �
 		connection.commit()
 		await ctx.send(embed = discord.Embed(title ='Предупреждения:bangbang:', description = f':bulb:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: **{arg}**\n\n:bulb:Выдал: __{ctx.author}__'))
 		await member.send(embed = discord.Embed(title = 'Варны:bangbang:', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__'))
+
+
+
 @client.command()
 async def warns(ctx, member: discord.Member = None):
 	if member is None:
@@ -136,6 +149,8 @@ async def unwarn(ctx, member: discord.Member = None):
 		connection.commit()
 		await ctx.send(embed = discord.Embed(title = 'Предупреждения:bangbang', description = f':bulb:У участника __{member.mention}__ очищены варны'))
 
+
+
 @client.command()
 @commands.has_permissions(administrator=True)
 async def clear(ctx, limit = None):
@@ -150,6 +165,8 @@ async def clear(ctx, limit = None):
 		await asyncio.sleep(int(10))
 		await ctx.channel.purge(limit = 1)
 
+
+
 @client.command(aliases = ['y'])
 async def скажи(ctx, *, arg = None):
 	if arg is None:
@@ -158,6 +175,8 @@ async def скажи(ctx, *, arg = None):
 		await ctx.channel.purge(limit = 1)
 		await ctx.send(arg)
 
+
+
 @client.command()
 async def лс(ctx, member: discord.Member = None, *, arg = None):
 	if arg is None:
@@ -165,6 +184,8 @@ async def лс(ctx, member: discord.Member = None, *, arg = None):
 	else:
 		await ctx.channel.purge(limit = 1)
 		await member.send(arg)
+
+
 
 @client.command()
 async def help(ctx):
@@ -252,13 +273,13 @@ async def on_member_join (member):
     channel = client.get_channel (907979956368326685)
     role = discord.utils.get (member.guild.roles, id = 907979956313817109)
     await member.add_roles( role )
-    await channel.send( embed = discord.Embed(title = 'Новенький',  description = f'``{member.name} присоединился к нам!```'))
+    await channel.send( embed = discord.Embed(title = 'Новенький',  description = f'`{member.name} присоединился к нам!`'))
 
 @client.command()
 async def ping(ctx):
     ping_ = client.latency
     ping = round(ping_ * 1000)
-    await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'Пинг в данный момент времени: ```{ping}ms```'))
+    await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'`Пинг в данный момент времени: {ping}ms`'))
 
 @client.command(aliases = ['j'])
 async def join(ctx):
