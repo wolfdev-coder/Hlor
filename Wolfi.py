@@ -378,4 +378,66 @@ async def leave(ctx):
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
 
+
+@client.command()
+async def pb(ctx, *, url = None):
+	if url is None:
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Ты не указал название либо ссылку на трек!'))
+	else:
+		try:
+			channel = ctx.author.voice.channel
+			await channel.connect()
+		except:
+			pass
+		try:
+			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+		except:
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = ':bulb:Зайдите в гс канал!'))
+		with YoutubeDL(ydl_opts) as ydl:
+			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] 
+		if test_v2.is_playing() or test_v2.is_paused():
+			await queue.put(test_video)
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Музыка: **{test_video["title"]}** добавлена в очередь'))
+		else:
+			await queue.put(test_video)
+			while queue.qsize() > 0:
+				new = asyncio.Event()
+				current = await queue.get()
+				test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Сейчас играет музыка - **{current["title"]}**'))
+				new.clear()
+				await asyncio.sleep(2)
+				await new.wait()
+				components = ([
+					Button(style = ButtonStyle.green, label = 'Стоп'),
+					Button(style = ButtonStyle.red, label = 'Пропустить')		
+				])
+
+				a = True
+				while a:
+					res = await client.wait_for('button_click', check = lambda message: message.author == ctx.author)
+					if res.component.label == 'Стоп':
+						test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+						if test_v2.is_playing() or test_v2.is_paused():
+							while queue.qsize() > 0:
+								await queue.get()
+							test_v2.stop()
+							await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка остановлена'))
+						else:
+							await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
+					else:
+						test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+						if test_v2.is_playing() or test_v2.is_paused():
+							test_v2.stop()
+							await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка переключена на следущую!'))
+						else:
+							await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
+			else:
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
+			try:
+				await test_v2.disconnect()
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Бот отключился"))
+			except:
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
+
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
