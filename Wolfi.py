@@ -7,6 +7,7 @@ from discord.utils import get
 import os
 import youtube_dl
 from youtube_dl import *
+import discord_components
 
 
 
@@ -20,6 +21,7 @@ cursor = connection.cursor()
 @client.event
 async def on_ready():
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game( '.help' ) )
+	DiscordComponents(client)
 	print('Бот запущен')
 	cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 		name TEXT,
@@ -434,10 +436,10 @@ async def pb(ctx, *, url = None):
 							await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
 			else:
 				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка не включена!'))
-			try:
-				await test_v2.disconnect()
-				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Бот отключился"))
-			except:
-				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
+		try:
+			await test_v2.disconnect()
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Бот отключился"))
+		except:
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!"))
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
