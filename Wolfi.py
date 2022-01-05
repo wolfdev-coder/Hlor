@@ -289,8 +289,9 @@ async def join(ctx):
 	try:
 		channel = ctx.author.voice.channel
 		await channel.connect()
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Бот подключился в голосовой канал `{channel}` ', color = 0xFFFFFF))
 	except:
-		await ctx.send('Зайдите в гс канал!')
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = 'Зайдите в гс канал', color = 0xED4245))
 
 
 queue = asyncio.Queue()
@@ -315,14 +316,14 @@ async def play(ctx, *, url = None):
 			test_video = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0] 
 		if test_v2.is_playing() or test_v2.is_paused():
 			await queue.put(test_video)
-			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Музыка: **{test_video["title"]}** добавлена в очередь', color = 0xFFFFFF))
+			await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Музыка: `{test_video["title"]}` добавлена в очередь', color = 0xFFFFFF))
 		else:
 			await queue.put(test_video)
 			while queue.qsize() > 0:
 				new = asyncio.Event()
 				current = await queue.get()
 				test_v2.play(discord.FFmpegOpusAudio(current['formats'][0]['url'], **FFMPEG_OPTIONS), after = lambda a: new.set())
-				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Сейчас играет музыка - **{current["title"]}**', color = 0xFFFFFF))
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description = f':bulb:Сейчас играет музыка - `{current["title"]}`', color = 0xFFFFFF))
 				new.clear()
 				await asyncio.sleep(2)
 				await new.wait()
@@ -377,24 +378,32 @@ async def leave(ctx):
 
 	if voice and voice.is_connected():
 		await voice.disconnect()
-		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Отключился от {channel}", color = 0xFFFFFF))
+		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =f":bulb:Отключился от `{channel}`", color = 0xFFFFFF))
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!", color = 0xED4245))
 
-
 @client.command()
-async def prikol(ctx, member: discord.Member = None):
-	mess = await ctx.send('тест', components = [
-		Button(style = ButtonStyle.green, label = 'Тест1'),			
-		Button(style = ButtonStyle.blue, label = 'тест2')])
-	res = await client.wait_for('button_click', check = lambda message: message.author == ctx.author) # Событие button_click
-	if res.component.label == 'Тест1':
-		role = discord.utils.get(ctx.message.guild.roles, name="Тестер")
-		await member.add_roles(role)
-		await ctx.send('тест 1 завершил работу')
-	else:
-		await ctx.send('тест2 Далбаеб')
-
-
+async def test(ctx)
+	msg = await ctx.send(
+		embed = discord.Embed(title = 'test button', timestamp = ctx.message.created_at),
+		components = [
+			Button(style = ButtonStyle.green, label = 'Test1'),
+			Button(style = ButtonStyle.gray, label = 'Test2')
+		])
+	a = True
+	while a:
+		res = await client.wait_for('button_click', check = lambda message: message.author == ctx.author)
+		if res.component.label == 'Test1':
+			if test_v2.is_playing():
+				test_v2.pause()
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка поставлена на паузу', color = 0xFFFFFF))
+		elif res.component.label == 'Test2':
+			test_v2 = discord.utils.get(client.voice_clients, guild = ctx.guild)
+			if test_v2.is_paused():
+				test_v2.resume()
+				await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =':bulb:Музыка снова проигрывается', color = 0xFFFFFF))
+		else:
+			await res.respond(embed = discord.Embed(type=7, description = '**Отклонено!**'))
+			a = False
 
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
