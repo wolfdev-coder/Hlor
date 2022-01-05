@@ -383,7 +383,7 @@ async def leave(ctx):
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!", color = 0xED4245))
 
 @client.command()
-async def test(ctx)
+async def test(ctx):
 	msg = await ctx.send(
 		embed = discord.Embed(title = 'test button', timestamp = ctx.message.created_at),
 		components = [
