@@ -268,7 +268,7 @@ async def on_command_error(ctx, error):
 @client.command()
 async def avatar(ctx, *, avamember: discord.Member = None):
 	userAvatarUrl = avamember.avatar_url
-	await ctx.send(f'Аватар {member.mention} ниже')
+	await ctx.send(f'Аватар {avamember} ниже')
 	await ctx.send(userAvatarUrl)
 
 @client.event
