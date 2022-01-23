@@ -22,7 +22,7 @@ cursor = connection.cursor()
 async def on_ready():
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game( '.help' ) )
 	DiscordComponents(client)
-	print('Бот запущен')
+	print('Хлор вошел в реакцию....')
 	cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 		name TEXT,
 		id INT,
