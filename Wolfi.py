@@ -22,7 +22,7 @@ cursor = connection.cursor()
 async def on_ready():
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game( '.help' ) )
 	DiscordComponents(client)
-	print('Хлор вошел в реакцию....')
+	print('Бот запущен')
 	cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 		name TEXT,
 		id INT,
@@ -268,7 +268,7 @@ async def on_command_error(ctx, error):
 @client.command()
 async def avatar(ctx, *, avamember: discord.Member = None):
 	userAvatarUrl = avamember.avatar_url
-	await ctx.send(f'Аватар {avamember} ниже')
+	await ctx.send(f'Аватар {member.mention} ниже')
 	await ctx.send(userAvatarUrl)
 
 @client.event
