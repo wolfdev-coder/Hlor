@@ -291,12 +291,9 @@ async def on_member_join (member):
 
 @client.command()
 async def ping(ctx):
-	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
-    	ping_ = client.latency
-    	ping = round(ping_ * 1000)
-    	await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'`Пинг в данный момент времени: {ping}ms`', color = 0xFFFFFF))
-    else:
-    	await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+    ping_ = client.latency
+    ping = round(ping_ * 1000)
+    await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'`Пинг в данный момент времени: {ping}ms`', color = 0xFFFFFF))
 
 @client.command(aliases = ['j'])
 async def join(ctx):
