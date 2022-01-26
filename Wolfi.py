@@ -173,7 +173,7 @@ async def clear(ctx, limit = None):
 			await asyncio.sleep(int(5))
 			await ctx.channel.purge(limit = 1)
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 @client.command(aliases = ['y'])
