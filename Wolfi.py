@@ -22,7 +22,7 @@ cursor = connection.cursor()
 async def on_ready():
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game( '.help' ) )
 	DiscordComponents(client)
-	print('Бот запущен')
+	print('Хлор вошел в реакцию')
 	cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 		name TEXT,
 		id INT,
@@ -83,54 +83,59 @@ async def unmute(ctx, member: discord.Member = None):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина не указана'):
-	if member is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = ':bulb:Форма бана: **.ban @(ник) (время) (причина)**', color = 0xED4245))
-	elif time is None:
-		await ctx.send('Пожалуйста, укажите время!')
+	if client.get_role(907979956368326681) in ctx.author.roles:
+		if member is None:
+			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = ':bulb:Форма бана: **.ban @(ник) (время) (причина)**', color = 0xED4245))
+		elif time is None:
+			await ctx.send('Пожалуйста, укажите время!')
+		else:
+			time2 = time
+			if 's' in time:
+				time = time[:-1] 
+				time = time*int(1)
+			elif 'm' in time:
+				time = time[:-1] 
+				time = int(time)*60
+			elif 'h' in time:
+				time = time[:-1] 
+				time = int(time)*3600
+			elif 'd' in time:
+				time = time[:-1] 
+				time = int(time)*3600*24
+			await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ забанен! \n\n:bulb:Срок бана: **{time2}** \n\n:bulb:Причина: **{arg}** \n\n:bulb:Администратор: __{ctx.author}__'))
+			await member.create_dm()
+			await member.send(embed = discord.Embed(title = 'Блокировки:lock:', descriptions = f':bulb:Вы были забанены на **{time2}** \n\nCервер **{ctx.guild.name}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Забанил: __{ctx.author}__'))
+			await member.ban(reason = f'{arg}')		
+			await asyncio.sleep(int(time))
+			await member.unban(reason = f'{arg}')
+			await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
 	else:
-		time2 = time
-		if 's' in time:
-			time = time[:-1] 
-			time = time*int(1)
-		elif 'm' in time:
-			time = time[:-1] 
-			time = int(time)*60
-		elif 'h' in time:
-			time = time[:-1] 
-			time = int(time)*3600
-		elif 'd' in time:
-			time = time[:-1] 
-			time = int(time)*3600*24
-		await ctx.send(embed = discord.Embed(title = 'Блокировки:lock:', description = f':bulb:Участник __{member.mention}__ забанен! \n\n:bulb:Срок бана: **{time2}** \n\n:bulb:Причина: **{arg}** \n\n:bulb:Администратор: __{ctx.author}__'))
-		await member.create_dm()
-		await member.send(embed = discord.Embed(title = 'Блокировки:lock:', descriptions = f':bulb:Вы были забанены на **{time2}** \n\nCервер **{ctx.guild.name}** \n\n:bulb:Причина: __{arg}__ \n\n:bulb:Забанил: __{ctx.author}__'))
-		await member.ban(reason = f'{arg}')		
-		await asyncio.sleep(int(time))
-		await member.unban(reason = f'{arg}')
-		await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
+		ctx.send('Нет прав!')
 
 
 
 @client.command()
-@commands.has_permissions(administrator=True)
 async def unban(ctx, member: discord.Member = None,):
-	await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
-	await member.unban(reason = f'{arg}')
-	await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
-
+	if client.get_role(907979956368326681) in ctx.author.roles:
+		await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
+		await member.unban(reason = f'{arg}')
+		await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
+	else:
+		ctx.send('Нет прав!')
 
 
 @client.command()
-@commands.has_permissions(administrator=True)
 async def warn(ctx, member: discord.Member = None, *, arg='Причина не указана'):
-	if member is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = 'Правильная форма: **.warn @(ник) (причина)**', color = 0xED4245 ))
+	if client.get_role(907979956368326681) in ctx.author.roles:
+		if member is None:
+			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = 'Правильная форма: **.warn @(ник) (причина)**', color = 0xED4245 ))
+		else:
+			cursor.execute("UPDATE users SET warns = warns + 1 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
+			connection.commit()
+			await ctx.send(embed = discord.Embed(title ='Предупреждения:bangbang:', description = f':bulb:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: **{arg}**\n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
+			await member.send(embed = discord.Embed(title = 'Варны:bangbang:', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
 	else:
-		cursor.execute("UPDATE users SET warns = warns + 1 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
-		connection.commit()
-		await ctx.send(embed = discord.Embed(title ='Предупреждения:bangbang:', description = f':bulb:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: **{arg}**\n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
-		await member.send(embed = discord.Embed(title = 'Варны:bangbang:', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
-
+		ctx.send('Нет прав!')		
 
 
 @client.command()
@@ -159,12 +164,12 @@ async def clear(ctx, limit = None):
 	if limit is None:
 		await ctx.channel.purge(limit = 75)
 		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)', color =  0xFFFFFF))
-		await asyncio.sleep(int(6))
+		await asyncio.sleep(int(5))
 		await ctx.channel.purge(limit = 1)
 	else:
 		await ctx.channel.purge(limit = int(limit)+1)
 		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = f':bulb:Данный канал успешно очищен! \n\nОчистил - {ctx.author}', color =  0xFFFFFF))
-		await asyncio.sleep(int(10))
+		await asyncio.sleep(int(5))
 		await ctx.channel.purge(limit = 1)
 
 
