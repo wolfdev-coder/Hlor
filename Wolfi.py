@@ -417,4 +417,11 @@ async def test(ctx):
 			await res.respond(embed = discord.Embed(type=7, description = '**Отклонено!**'))
 			a = False
 
+
+@client.command(aliases = ['обнова'])
+async def upd(ctx):
+	await ctx.send(emded = discord.Embed(title = 'Обновление!', description = '1) Сделано оформление бота \n2) Добавлена музыка (при нестабильности работы писать в чат) \n3) Добавлена команда .avatar \n\n4) Добавлены права использования. \n\n ПРИ НЕДОРАБОТКЕ ПИШИТЕ В ЧАТ!'))
+
+
+
 client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
