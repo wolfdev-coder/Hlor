@@ -83,7 +83,7 @@ async def unmute(ctx, member: discord.Member = None):
 @client.command()
 @commands.has_permissions(administrator=True)
 async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина не указана'):
-	if client.get_role(907979956368326681) in ctx.author.roles:
+	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
 		if member is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = ':bulb:Форма бана: **.ban @(ник) (время) (причина)**', color = 0xED4245))
 		elif time is None:
@@ -110,7 +110,7 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 			await member.unban(reason = f'{arg}')
 			await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
 	else:
-		await ctx.send('Нет прав!')
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 
@@ -121,12 +121,12 @@ async def unban(ctx, member: discord.Member = None):
 		await member.unban(reason = f'{arg}')
 		await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
 	else:
-		await ctx.send('Нет прав!')
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 @client.command()
 async def warn(ctx, member: discord.Member = None, *, arg='Причина не указана'):
-	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
+	if ctx.guild.get_role(907979956368326682) in ctx.author.roles:
 		if member is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = 'Правильная форма: **.warn @(ник) (причина)**', color = 0xED4245 ))
 		else:
@@ -135,7 +135,7 @@ async def warn(ctx, member: discord.Member = None, *, arg='Причина не �
 			await ctx.send(embed = discord.Embed(title ='Предупреждения:bangbang:', description = f':bulb:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: **{arg}**\n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
 			await member.send(embed = discord.Embed(title = 'Варны:bangbang:', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
 	else:
-		await ctx.send('Нет прав!')
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 @client.command()
@@ -147,51 +147,57 @@ async def warns(ctx, member: discord.Member = None):
 
 
 @client.command()
-@commands.has_permissions(administrator=True)
 async def unwarn(ctx, member: discord.Member = None):
-	if member is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: **.unwarn @(ник)**', color = 0xED4245))
+	if ctx.guild.get_role(907979956368326682) in ctx.author.roles:
+		if member is None:
+			await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: **.unwarn @(ник)**', color = 0xED4245))
+		else:
+			cursor.execute("UPDATE users SET warns = 0 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
+			connection.commit()
+			await ctx.send(embed = discord.Embed(title = 'Предупреждения:bangbang', description = f':bulb:У участника __{member.mention}__ очищены варны', color = 0xFFFFFF))
 	else:
-		cursor.execute("UPDATE users SET warns = 0 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
-		connection.commit()
-		await ctx.send(embed = discord.Embed(title = 'Предупреждения:bangbang', description = f':bulb:У участника __{member.mention}__ очищены варны', color = 0xFFFFFF))
-
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 @client.command()
-@commands.has_permissions(administrator=True)
 async def clear(ctx, limit = None):
-	if limit is None:
-		await ctx.channel.purge(limit = 75)
-		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)', color =  0xFFFFFF))
-		await asyncio.sleep(int(5))
-		await ctx.channel.purge(limit = 1)
+	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+		if limit is None:
+			await ctx.channel.purge(limit = 75)
+			await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)', color =  0xFFFFFF))
+			await asyncio.sleep(int(5))
+			await ctx.channel.purge(limit = 1)
+		else:
+			await ctx.channel.purge(limit = int(limit)+1)
+			await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = f':bulb:Данный канал успешно очищен! \n\nОчистил - {ctx.author}', color =  0xFFFFFF))
+			await asyncio.sleep(int(5))
+			await ctx.channel.purge(limit = 1)
 	else:
-		await ctx.channel.purge(limit = int(limit)+1)
-		await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = f':bulb:Данный канал успешно очищен! \n\nОчистил - {ctx.author}', color =  0xFFFFFF))
-		await asyncio.sleep(int(5))
-		await ctx.channel.purge(limit = 1)
-
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 @client.command(aliases = ['y'])
 async def скажи(ctx, *, arg = None):
-	if arg is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
+	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+		if arg is None:
+			await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
+		else:
+			await ctx.channel.purge(limit = 1)
+			await ctx.send(arg)
 	else:
-		await ctx.channel.purge(limit = 1)
-		await ctx.send(arg)
-
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 @client.command()
 async def лс(ctx, member: discord.Member = None, *, arg = None):
-	if arg is None:
-		await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
+	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+		if arg is None:
+			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
+		else:
+			await ctx.channel.purge(limit = 1)
+			await member.send(arg)
 	else:
-		await ctx.channel.purge(limit = 1)
-		await member.send(arg)
-
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 
 @client.command()
@@ -285,9 +291,12 @@ async def on_member_join (member):
 
 @client.command()
 async def ping(ctx):
-    ping_ = client.latency
-    ping = round(ping_ * 1000)
-    await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'`Пинг в данный момент времени: {ping}ms`', color = 0xFFFFFF))
+	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+    	ping_ = client.latency
+    	ping = round(ping_ * 1000)
+    	await ctx.send(embed = discord.Embed(title = 'Пинг:satellite:', description=f'`Пинг в данный момент времени: {ping}ms`', color = 0xFFFFFF))
+    else:
+    	await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
 
 @client.command(aliases = ['j'])
 async def join(ctx):
@@ -388,6 +397,7 @@ async def leave(ctx):
 		await ctx.send(embed = discord.Embed(title = 'Музыка:notes:', description =":bulb:Бот не подключен к гс!", color = 0xED4245))
 
 @client.command()
+@commands.has_permissions(administrator=True)
 async def test(ctx):
 	msg = await ctx.send(
 		embed = discord.Embed(title = 'test button', timestamp = ctx.message.created_at),
