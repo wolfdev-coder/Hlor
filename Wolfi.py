@@ -115,8 +115,8 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 
 
 @client.command()
-async def unban(ctx, member: discord.Member = None,):
-	if client.get_role(907979956368326681) in ctx.author.roles:
+async def unban(ctx, member: discord.Member = None):
+	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
 		await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
 		await member.unban(reason = f'{arg}')
 		await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
@@ -126,7 +126,7 @@ async def unban(ctx, member: discord.Member = None,):
 
 @client.command()
 async def warn(ctx, member: discord.Member = None, *, arg='Причина не указана'):
-	if client.get_role(907979956368326681) in ctx.author.roles:
+	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
 		if member is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = 'Правильная форма: **.warn @(ник) (причина)**', color = 0xED4245 ))
 		else:
