@@ -81,7 +81,6 @@ async def unmute(ctx, member: discord.Member = None):
 
 
 @client.command()
-@commands.has_permissions(administrator=True)
 async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина не указана'):
 	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
 		if member is None:
