@@ -153,7 +153,7 @@ async def unwarn(ctx, member: discord.Member = None):
 		else:
 			cursor.execute("UPDATE users SET warns = 0 WHERE id = {} and server_id = {}".format(member.id, ctx.guild.id))
 			connection.commit()
-			await ctx.send(embed = discord.Embed(title = 'Предупреждения:bangbang', description = f':bulb:У участника __{member.mention}__ очищены варны', color = 0xFFFFFF))
+			await ctx.send(embed = discord.Embed(title = 'Предупреждения', description = f':bulb:У участника __{member.mention}__ очищены варны', color = 0xFFFFFF))
 	else:
 		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
