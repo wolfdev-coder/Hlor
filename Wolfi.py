@@ -110,7 +110,7 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 			await member.unban(reason = f'{arg}')
 			await ctx.send(f'У участника __{member.mention}__ истекло время бана ')
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 
@@ -121,7 +121,7 @@ async def unban(ctx, member: discord.Member = None):
 		await member.unban(reason = f'{arg}')
 		await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 @client.command()
@@ -135,7 +135,7 @@ async def warn(ctx, member: discord.Member = None, *, arg='Причина не �
 			await ctx.send(embed = discord.Embed(title ='Предупреждения:bangbang:', description = f':bulb:Участник __{member.mention}__ получил варн! \n\n:bulb:Причина: **{arg}**\n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
 			await member.send(embed = discord.Embed(title = 'Варны:bangbang:', description = f':bulb:Вам выдали варн! \n\n:bulb:Причина: **{arg}** \n\n:bulb:Выдал: __{ctx.author}__', color = 0xFFFFFF))
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 @client.command()
@@ -156,7 +156,7 @@ async def unwarn(ctx, member: discord.Member = None):
 			connection.commit()
 			await ctx.send(embed = discord.Embed(title = 'Предупреждения:bangbang', description = f':bulb:У участника __{member.mention}__ очищены варны', color = 0xFFFFFF))
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 @client.command()
@@ -185,7 +185,7 @@ async def скажи(ctx, *, arg = None):
 			await ctx.channel.purge(limit = 1)
 			await ctx.send(arg)
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 @client.command()
@@ -197,7 +197,7 @@ async def лс(ctx, member: discord.Member = None, *, arg = None):
 			await ctx.channel.purge(limit = 1)
 			await member.send(arg)
 	else:
-		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{member.mention}, у вас нет прав!'))
+		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
 @client.command()
