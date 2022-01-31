@@ -229,7 +229,7 @@ async def контроль(ctx,member: discord.Member = None, time=None, * ,arg 
 		await member.send(f'{member.mention}, Вам флудят: {arg}) 
 		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .контроль')
 		coint += 1
-		if coint == {num}:
+		if coint == num:
 			a = False
 
 @client.event
