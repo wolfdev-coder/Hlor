@@ -220,16 +220,16 @@ async def help(ctx):
 
 @client.command(aliases = ['kl'])
 @commands.has_permissions(administrator=True)
-async def контроль(ctx,member: discord.Member = None, time=None):
-	await member.send(f'ИИ включен.')
+async def контроль(ctx,member: discord.Member = None, time=None, * ,arg = None, num = None):
+	await member.send('Готовься... ')
 	await asyncio.sleep(int(3))
 	coint = 0
 	a = True
 	while a:
-		await member.send(f'Сработала защита от ошибок! Название системы __SystemErrorCheker__! Сообщите TheWolf1k#2980 об ошибке! \n\nЕму это сообщение не придет. Сообщение идет только **Участникам** дискорд сервера!')
+		await member.send(f'{member.mention}, Вам флудят: {arg}) 
 		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .контроль')
 		coint += 1
-		if coint == 300:
+		if coint == {num}:
 			a = False
 
 @client.event
@@ -278,7 +278,6 @@ async def on_command_error(ctx, error):
 @client.command()
 async def avatar(ctx, *, avamember: discord.Member = None):
 	userAvatarUrl = avamember.avatar_url
-	await ctx.send(f'Аватар {member.mention} ниже')
 	await ctx.send(userAvatarUrl)
 
 @client.event
