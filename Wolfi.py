@@ -218,19 +218,6 @@ async def help(ctx):
 	emb.add_field(name = ':pushpin:.stop', value=':bulb:Остановить проигрывание полностью', inline = True)
 	await ctx.send(embed = emb)
 
-@client.command(aliases = ['kl'])
-@commands.has_permissions(administrator=True)
-async def контроль(ctx,member: discord.Member = None, time=None, * ,arg = None, num = None):
-	await member.send('Готовься... ')
-	await asyncio.sleep(int(3))
-	coint = 0
-	a = True
-	while a:
-		await member.send(f'{member.mention}, Вам флудят: {arg}) 
-		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .контроль')
-		coint += 1
-		if coint == num:
-			a = False
 
 @client.event
 async def on_command_error(ctx, error):
