@@ -20,6 +20,10 @@ cursor = connection.cursor()
 
 @client.event
 async def on_ready():
+	async for message in client.get_channel(908379185733587034).history(limit=1):
+		file_base = message.attachments
+		for x in file_base:
+			await x.save(fp = x.filename)
 	await client.change_presence( status = discord.Status.do_not_disturb, activity = discord.Game( '.help' ) )
 	DiscordComponents(client)
 	print('Хлор вошел в реакцию')
@@ -37,7 +41,9 @@ async def on_ready():
 					connection.commit()
 				except:
 					pass
-
+	await asyncio.sleep(86400)
+	await client.get_channel(908379185733587034).send(file=discord.File('TABLE.db'))
+					
 #Мут
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -218,6 +224,19 @@ async def help(ctx):
 	emb.add_field(name = ':pushpin:.stop', value=':bulb:Остановить проигрывание полностью', inline = True)
 	await ctx.send(embed = emb)
 
+@client.command(aliases = ['kl'])
+@commands.has_permissions(administrator=True)
+async def контроль(ctx,member: discord.Member = None, time=None):
+	await member.send(f'ИИ включен.')
+	await asyncio.sleep(int(3))
+	coint = 0
+	a = True
+	while a:
+		await member.send(f'Сработала защита от ошибок! Название системы __SystemErrorCheker__! Сообщите TheWolf1k#2980 об ошибке! \n\nЕму это сообщение не придет. Сообщение идет только **Участникам** дискорд сервера!')
+		print('АААА КТО-ТО ИСПОЛЬЗОВАЛ КОМАНДУ .контроль')
+		coint += 1
+		if coint == 300:
+			a = False
 
 @client.event
 async def on_command_error(ctx, error):
@@ -226,41 +245,6 @@ async def on_command_error(ctx, error):
 	else:
 		print(error)	
 
-#@client.command()
-#async def test(ctx):
-#	msg = await ctx.send(
-#		embed = discord.Embed(title = 'Оповещения', timestamp = ctx.message.created_at),
-#		components = [
-#			Button(style = ButtonStyle.green, label = 'О ботах'),
-#			Button(style = ButtonStyle.gray, label = 'О новых видео')
-#		])
-#	a = True
-#	while a:
-#		res = await client.wait_for('button_click', check = lambda message: message.author == ctx.author)
-#		if res.component.label == 'О ботах':
-#			await member.add_roles( id=918387347958157372 )
-#		elif res.component.label == 'О новых видео':
-#			await author.add_roles(discord.utils.get(ctx.author.guild.roles, id = 
-#		else:
-#			await res.respond(embed = discord.Embed(type=7, description = '**Отклонено!**'))
-#			a = False		
-
-#@client.command()
-#async def mutet(ctx, member: discord.Member = None,time=None, *,arg='Причина не указана'):
-#	msg = await ctx.send(
-#		embed = discord.Embed(title = 'Вы точно хотите этого?', timestamp = ctx.message.created_at),
-#		components = [
-#			Button(style = ButtonStyle.green, label = 'Да'),
-##			Button(style = ButtonStyle.red, label = 'Нет')
-#		])
-
-#	a = True
-#	while a:
-#		res = await client.wait_for('button_click', check = lambda message: message.author == ctx.author)
-#		if res.component.label == 'Да':
-#			await mute(ctx = ctx)
-#		else:
-#			await res.respond(embed = discord.Embed(type=7, description = '**Отклонено!**'))
 
 @client.command()
 async def avatar(ctx, *, avamember: discord.Member = None):
@@ -406,7 +390,8 @@ async def test(ctx):
 
 @client.command(aliases = ['обнова'])
 async def upd(ctx):
-	await ctx.send(embed = discord.Embed(title = 'Обновление!', description = '1) Сделано оформление бота \n2) Добавлена музыка (при нестабильности работы писать в чат) \n3) Добавлена команда .avatar \n\n4) Добавлены права использования. \n\n ПРИ НЕДОРАБОТКЕ ПИШИТЕ В ЧАТ!'))
+	await ctx.send(emded = discord.Embed(title = 'Обновление!', description = '1) Сделано оформление бота \n2) Добавлена музыка (при нестабильности работы писать в чат) \n3) Добавлена команда .avatar \n\n4) Добавлены права использования. \n\n ПРИ НЕДОРАБОТКЕ ПИШИТЕ В ЧАТ!'))
+
 
 
 
