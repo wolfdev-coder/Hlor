@@ -43,6 +43,7 @@ async def on_ready():
 					pass
 	await asyncio.sleep(86400)
 	await client.get_channel(908379185733587034).send(file=discord.File('TABLE.db'))
+	await client.get_channel(908379185733587034).send('@Вулфик#2980, я скачал Ольгу Бузову (Базу данных)')	
 					
 #Мут
 @client.command()
@@ -181,8 +182,8 @@ async def clear(ctx, limit = None):
 		await ctx.send(embed = discord.Embed(title = 'Права', description = f'{ctx.author.mention}, у вас нет прав!'))
 
 
-@client.command(aliases = ['y'])
-async def скажи(ctx, *, arg = None):
+@client.command(aliases = ['пизди'])
+async def say(ctx, *, arg = None):
 	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
 		if arg is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
@@ -194,10 +195,10 @@ async def скажи(ctx, *, arg = None):
 
 
 @client.command()
-async def лс(ctx, member: discord.Member = None, *, arg = None):
+async def sayls(ctx, member: discord.Member = None, *, arg = None):
 	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
 		if arg is None:
-			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
+			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .sayls (Текст)',color =  0xED4245))
 		else:
 			await ctx.channel.purge(limit = 1)
 			await member.send(arg)
