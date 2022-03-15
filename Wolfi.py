@@ -396,4 +396,4 @@ async def upd(ctx):
 
 
 
-client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.xgFNuiyred3JHMHcGdfq82fNZUY')
+client.run('OTExOTQ5NTE0NzYyNTE4NTI4.YZo1Kw.CFRrs4ldC0JD1wZ56YukWPxfZEc')
