@@ -167,7 +167,7 @@ async def unwarn(ctx, member: discord.Member = None):
 
 @client.command()
 async def clear(ctx, limit = None):
-	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+	if ctx.guild.get_role(907979956368326683) in ctx.author.roles:
 		if limit is None:
 			await ctx.channel.purge(limit = 75)
 			await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)', color =  0xFFFFFF))
@@ -184,7 +184,7 @@ async def clear(ctx, limit = None):
 
 @client.command(aliases = ['пизди'])
 async def say(ctx, *, arg = None):
-	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+	if ctx.guild.get_role(907979956368326683) in ctx.author.roles:
 		if arg is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
 		else:
@@ -196,7 +196,7 @@ async def say(ctx, *, arg = None):
 
 @client.command()
 async def sayls(ctx, member: discord.Member = None, *, arg = None):
-	if ctx.guild.get_role(929830112726249573) in ctx.author.roles:
+	if ctx.guild.get_role(907979956368326683) in ctx.author.roles:
 		if arg is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .sayls (Текст)',color =  0xED4245))
 		else:
