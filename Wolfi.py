@@ -42,8 +42,8 @@ async def on_ready():
 				except:
 					pass
 	await asyncio.sleep(86400)
+	await client.get_channel(908379185733587034).send('@Вулфик#2980, я скачал Ольгу Бузову')
 	await client.get_channel(908379185733587034).send(file=discord.File('TABLE.db'))
-	await client.get_channel(908379185733587034).send('@Вулфик#2980, я скачал Ольгу Бузову (Базу данных)')	
 					
 #Мут
 @client.command()
