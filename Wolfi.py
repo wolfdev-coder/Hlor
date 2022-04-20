@@ -20,7 +20,7 @@ cursor = connection.cursor()
 
 @client.event
 async def on_ready():
-	async for message in client.get_channel(908379185733587034).history(limit=1):
+	async for message in client.get_channel(966336563535564862).history(limit=1):
 		file_base = message.attachments
 		for x in file_base:
 			await x.save(fp = x.filename)
@@ -42,8 +42,7 @@ async def on_ready():
 				except:
 					pass
 	await asyncio.sleep(86400)
-	await client.get_channel(908379185733587034).send('@Вулфик#2980, я скачал Ольгу Бузову')
-	await client.get_channel(908379185733587034).send(file=discord.File('TABLE.db'))
+	await client.get_channel(966336563535564862).send(file=discord.File('TABLE.db'))
 					
 #Мут
 @client.command()
@@ -89,7 +88,7 @@ async def unmute(ctx, member: discord.Member = None):
 
 @client.command()
 async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина не указана'):
-	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
+	if ctx.guild.get_role(966336562864488497) in ctx.author.roles:
 		if member is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = ':bulb:Форма бана: **.ban @(ник) (время) (причина)**', color = 0xED4245))
 		elif time is None:
@@ -122,7 +121,7 @@ async def ban(ctx, member: discord.Member = None,time=None,*,arg='Причина
 
 @client.command()
 async def unban(ctx, member: discord.Member = None):
-	if ctx.guild.get_role(907979956368326681) in ctx.author.roles:
+	if ctx.guild.get_role(966336562864488497) in ctx.author.roles:
 		await ctx.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
 		await member.unban(reason = f'{arg}')
 		await member.send(embed = discord.Embed(title = 'Разблокировки:unlock:', description = f':bulb:Участник: **{member.mention}** разбанен \n:bulb:Администратор = {ctx.author}', color = 0xFFFFFF))
@@ -132,7 +131,7 @@ async def unban(ctx, member: discord.Member = None):
 
 @client.command()
 async def warn(ctx, member: discord.Member = None, *, arg='Причина не указана'):
-	if ctx.guild.get_role(907979956368326682) in ctx.author.roles:
+	if ctx.guild.get_role(966336562877042718) in ctx.author.roles:
 		if member is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry:', description = 'Правильная форма: **.warn @(ник) (причина)**', color = 0xED4245 ))
 		else:
@@ -154,7 +153,7 @@ async def warns(ctx, member: discord.Member = None):
 
 @client.command()
 async def unwarn(ctx, member: discord.Member = None):
-	if ctx.guild.get_role(907979956368326682) in ctx.author.roles:
+	if ctx.guild.get_role(966336562877042718) in ctx.author.roles:
 		if member is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: **.unwarn @(ник)**', color = 0xED4245))
 		else:
@@ -167,7 +166,7 @@ async def unwarn(ctx, member: discord.Member = None):
 
 @client.command()
 async def clear(ctx, limit = None):
-	if ctx.guild.get_role(907979956368326683) in ctx.author.roles:
+	if ctx.guild.get_role(966336562877042718) in ctx.author.roles:
 		if limit is None:
 			await ctx.channel.purge(limit = 75)
 			await ctx.send(embed = discord.Embed(title = 'Очистка!:dash:', description = ':bulb:Очищено 75 сообщений \n:bulb:Если хотите выбрать кол-во сами, напишите .clear (кол-во)', color =  0xFFFFFF))
@@ -184,7 +183,7 @@ async def clear(ctx, limit = None):
 
 @client.command(aliases = ['пизди'])
 async def say(ctx, *, arg = None):
-	if ctx.guild.get_role(907979956368326683) in ctx.author.roles:
+	if ctx.guild.get_role(966336562877042718) in ctx.author.roles:
 		if arg is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка!:no_entry:', description = ':bulb:Правильная форма: .say (Текст)',color =  0xED4245))
 		else:
@@ -196,7 +195,7 @@ async def say(ctx, *, arg = None):
 
 @client.command()
 async def sayls(ctx, member: discord.Member = None, *, arg = None):
-	if ctx.guild.get_role(907979956368326683) in ctx.author.roles:
+	if ctx.guild.get_role(966336562877042718) in ctx.author.roles:
 		if arg is None:
 			await ctx.send(embed = discord.Embed(title = 'Ошибочка! :no_entry: ', description = ':bulb:Правильная форма: .sayls (Текст)',color =  0xED4245))
 		else:
